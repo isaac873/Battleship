@@ -1,7 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Moq;
 using FlareTechnicalTest.Isaac.Services;
 using FlareTechnicalTest.Isaac.Models;
@@ -12,6 +9,24 @@ namespace FlareTechnicalTest.Isaac.Tests.Services
     [TestClass]
     public class GameServiceTests
     {
+        [TestMethod]
+        public void AddBattleship_ReturnsFalse_WhenNullGameboard()
+        {
+            var target = new Mock<GameService>();
+
+            var result = target.Object.AddBattleShip(new CoordinateModel
+            {
+                XCoord = 0,
+                YCoord = 0
+            }, new CoordinateModel
+            {
+                XCoord = 0,
+                YCoord = 1
+            });
+
+            Assert.IsFalse(result);
+        }
+
         [TestMethod]
         public void AddBattleShip_FailsToAddBattleship_ReturnsFalse()
         {
@@ -60,6 +75,20 @@ namespace FlareTechnicalTest.Isaac.Tests.Services
             {
                 Assert.AreEqual(SquareStatus.Ship, square.Status);
             }
+        }
+
+        [TestMethod]
+        public void Attack_ReturnsNull_WhenNullGameboard()
+        {
+            var target = new Mock<GameService>();
+
+            var result = target.Object.Attack(new CoordinateModel
+            {
+                XCoord = 0,
+                YCoord = 0
+            });
+
+            Assert.IsNull(result);
         }
 
         [TestMethod]
