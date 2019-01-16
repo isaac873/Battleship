@@ -16,7 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\FlareTechnicalTest.Isaac\FlareTechnicalTest.Isaac.csproj" />
   </ItemGroup>
-  <PropertyGroup>
-    <PackageTargetFallback>dotnet</PackageTargetFallback>
-  </PropertyGroup>
 </Project>
