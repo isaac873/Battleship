@@ -17,12 +17,18 @@ namespace FlareTechnicalTest.Isaac.Services
 
         public bool AddBattleShip(CoordinateModel startingCoord, CoordinateModel endingCoord)
         {
+            if (_gameBoard == null)
+            {
+                return false;
+            }
+
             if (startingCoord.XCoord != endingCoord.XCoord
                 && startingCoord.YCoord != endingCoord.YCoord)
             {
                 return false;
             }
 
+            // Determine if the ship is horizontally or vertically placed.
             if (startingCoord.XCoord == endingCoord.XCoord)
             {
                 PlotShip(startingCoord, endingCoord.YCoord, false);
@@ -37,6 +43,11 @@ namespace FlareTechnicalTest.Isaac.Services
 
         public ResultModel<AttackResult> Attack(CoordinateModel attackCoords)
         {
+            if (_gameBoard == null)
+            {
+                return null;
+            }
+
             var square = _gameBoard.Squares.FirstOrDefault(p =>
                 p.Coordinates.YCoord == attackCoords.YCoord &&
                 p.Coordinates.XCoord == attackCoords.XCoord);
@@ -70,6 +81,8 @@ namespace FlareTechnicalTest.Isaac.Services
         {
             var xRow = startingCoord.XCoord;
             var yCol = startingCoord.YCoord;
+
+            // We'll loop through and plot the ship position from the start position to the end.
             for (var i = yCol; i <= end; i++)
             {
                 var square = _gameBoard.Squares.FirstOrDefault(p =>
@@ -78,6 +91,7 @@ namespace FlareTechnicalTest.Isaac.Services
 
                 square.Status = SquareStatus.Ship;
 
+                // We'll either increment "vertically" or "horizontally"
                 if (incrementX)
                 {
                     xRow++;

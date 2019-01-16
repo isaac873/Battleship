@@ -41,12 +41,17 @@ namespace FlareTechnicalTest.Isaac.Controllers
         public ResultModel<AttackResult> Attack(CoordinateModel coords)
         {
             var result = _gameService.Attack(coords);
-
-            if (!result.Success)
+            
+            if (result == null || !result.Success)
             {
-                return null;
+                return new ResultModel<AttackResult>
+                {
+                    Success = false,
+                    Message = "An error occurred with your attack. Please try a different set of coordinates."
+                };
             }
 
+            // If a ship is hit, we should check if the game is over. 
             if (result.Result.IsHit)
             {
                 result.Result.IsGameOver = _gameService.IsGameOver();

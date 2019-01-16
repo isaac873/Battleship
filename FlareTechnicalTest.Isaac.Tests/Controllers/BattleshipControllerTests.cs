@@ -89,7 +89,7 @@ namespace FlareTechnicalTest.Isaac.Tests.Controllers
         }
 
         [TestMethod]
-        public void Attack_ReturnsNull_WhenServiceReturnsFalse()
+        public void Attack_ReturnsError_WhenServiceReturnsFalse()
         {
             var gameService = new Mock<IGameService>();
 
@@ -106,7 +106,8 @@ namespace FlareTechnicalTest.Isaac.Tests.Controllers
                 YCoord = 0
             });
 
-            Assert.IsNull(result);
+            Assert.IsFalse(result.Success);
+            Assert.AreEqual("An error occurred with your attack. Please try a different set of coordinates.", result.Message);
         }
     }
 }
